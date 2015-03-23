@@ -13,7 +13,7 @@ function moveVector()
   end)
 
   -- Keyboard controls
-  keyboard_move = vector(
+  local keyboard_move = vector(
     to_int(love.keyboard.isDown('d')) - to_int(love.keyboard.isDown('a')),
     to_int(love.keyboard.isDown('s')) - to_int(love.keyboard.isDown('w'))
   )
@@ -23,12 +23,19 @@ function moveVector()
 end
 
 function aimVector()
-  local move_vectors = _.map(love.joystick.getJoysticks(), function(joystick)
+  local aim_vectors = _.map(love.joystick.getJoysticks(), function(joystick)
     local move = vector(joystick:getGamepadAxis("rightx"),
     joystick:getGamepadAxis("righty"))
     if move:len() > DEAD_ZONE then return move
     else return vector(0,0) end
   end)
 
-  return _.max(move_vectors, function(vec) return vec:len() end)
+  -- Keyboard controls
+  local keyboard_aim = vector(
+    to_int(love.keyboard.isDown('right')) - to_int(love.keyboard.isDown('left')),
+    to_int(love.keyboard.isDown('down')) - to_int(love.keyboard.isDown('up'))
+  )
+  _.push(aim_vectors, keyboard_aim:normalized())
+
+  return _.max(aim_vectors, function(vec) return vec:len() end)
 end

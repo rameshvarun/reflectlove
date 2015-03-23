@@ -2,6 +2,7 @@
 RELEASE = false
 DEBUG_DRAW = not RELEASE
 GAME_VERSION = "0.0.1"
+PAUSE_ON_UNFOCUS = false
 
 -- Util
 require 'util'
@@ -52,7 +53,8 @@ function love.update(dt)
     lurker.update() -- Live reload system
   end
 
-  if love.window.hasFocus() then -- Only simulate game if window has focus
+  -- Only simulate game if window has focus
+  if (PAUSE_ON_UNFOCUS and love.window.hasFocus()) or not PAUSE_ON_UNFOCUS then
     if current_state ~= nil then current_state:update(dt) end
   end
 

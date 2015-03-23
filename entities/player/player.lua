@@ -1,14 +1,15 @@
 Player = class('Player')
 Player:include(stateful) -- Stateful object
 
-PLAYER_BASE_SPEED = 500
+PLAYER_RUN_SPEED = 200
+PLAYER_WALK_SPEED = 100
 
 function Player:initialize(x, y)
   self.layer = 1
   self.tag = "player"
   self.pos = vector(x, y)
 
-  self.image = getImage("entities/player/player.png")
+  self.image = getImage("entities/player/pharaoh.png")
 end
 
 function Player:setPosition(x, y)
@@ -21,7 +22,7 @@ function Player:setPosition(x, y)
 end
 
 function Player:start()
-  self.collider = self.gamestate.collider:addCircle(self.pos.x,self.pos.y, 25)
+  self.collider = self.gamestate.collider:addCircle(self.pos.x,self.pos.y, 8)
   self.collider.entity = self
   self.collider.type = "moveable"
 end
@@ -33,7 +34,7 @@ end
 
 function Player:debug()
   --Mark location with point
-  love.graphics.setPointSize(10)
+  love.graphics.setPointSize(5)
   love.graphics.setColor( 0, 255, 0, 255 )
   love.graphics.point( self.pos.x, self.pos.y)
 
@@ -47,7 +48,7 @@ function Player:update(dt)
   -- Register self as point of interest
   self.gamestate.points_of_interest[self.pos] = 1
 
-  local speed = PLAYER_BASE_SPEED
+  local speed = PLAYER_RUN_SPEED
   local delta = moveVector() * speed * dt
   self.collider:move(delta.x, delta.y)
 

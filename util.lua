@@ -35,6 +35,7 @@ function getImage(filename)
 	local image = images[filename]
 	if image == nil then
 		image = love.graphics.newImage( filename )
+		image:setFilter("linear", "nearest")
 		images[filename] = image
 	end
 	return image

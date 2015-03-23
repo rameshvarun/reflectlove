@@ -64,15 +64,17 @@ function GameState:update(dt)
   end
 
   if not (min == nil or max == nil) then
-    local WIDTH_BUFFER = 500
-    local HEIGHT_BUFFER = 500
+    local WIDTH_BUFFER = 100
+    local HEIGHT_BUFFER = 100
 
     local center = (min + max)/2
     local zoomx = ((max.x - min.x) + WIDTH_BUFFER)/love.window.getWidth()
     local zoomy = ((max.y - min.y) + HEIGHT_BUFFER)/love.window.getHeight()
 
     local zoom = zoomx > zoomy and zoomx or zoomy
-    if zoom < 1 then zoom = 1 end
+    
+    local MIN_ZOOM = 0.4
+    if zoom < MIN_ZOOM then zoom = MIN_ZOOM end
 
     local lerpTime = dt*3
     self.cam:zoomTo(lume.lerp(self.cam.scale, 1/zoom, lerpTime))
