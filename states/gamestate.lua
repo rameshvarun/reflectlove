@@ -7,7 +7,7 @@ function GameState:initialize()
 
   -- Add teleporter and, bring in players
   self:add(Player(0,0))
-  self:add(TestBoss(0,0))
+  self:add(Tefnut(0,0))
 
   -- Ability to slow down time
   self.timescale = 1

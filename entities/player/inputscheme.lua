@@ -39,3 +39,10 @@ function aimVector()
 
   return _.max(aim_vectors, function(vec) return vec:len() end)
 end
+
+function aimInput()
+  local aim_vector = aimVector()
+  local is_aiming = aim_vector:len() > 0
+
+  return is_aiming, vector(0, 0)
+end

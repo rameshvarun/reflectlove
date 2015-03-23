@@ -1,27 +1,27 @@
-TestBoss = class('TestBoss')
-TestBoss:include(stateful) -- Stateful object
+Tefnut = class('Tefnut')
+Tefnut:include(stateful) -- Stateful object
 
-function TestBoss:initialize(x, y)
+function Tefnut:initialize(x, y)
   self.layer = 1
   self.tag = "enemy"
   self.pos = vector(x, y)
 
-  self.image = getImage("entities/testboss/boss.png")
+  self.image = getImage("entities/tefnutandshu/tefnut.png")
 end
 
 -- Called on first frame where entity is active
-function TestBoss:start()
+function Tefnut:start()
   self.collider = self.gamestate.collider:addCircle(self.pos.x,self.pos.y, 25)
   self.collider.entity = self
   self.collider.type = "moveable"
 end
 
-function TestBoss:draw()
+function Tefnut:draw()
   love.graphics.setColor( 255, 255, 255, 255)
   love.graphics.draw(self.image, self.pos.x, self.pos.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
 end
 
-function TestBoss:debug()
+function Tefnut:debug()
   --Mark location with point
   love.graphics.setPointSize(10)
   love.graphics.setColor( 0, 255, 0, 255 )
@@ -30,10 +30,10 @@ function TestBoss:debug()
   if self.collider ~= nil then self.collider:draw('line', 16) end
 end
 
-function TestBoss:overlay()
+function Tefnut:overlay()
 end
 
-function TestBoss:update(dt)
+function Tefnut:update(dt)
   -- Register self as point of interest
   self.gamestate.points_of_interest[self.pos] = 1
 

@@ -48,7 +48,9 @@ function Player:update(dt)
   -- Register self as point of interest
   self.gamestate.points_of_interest[self.pos] = 1
 
-  local speed = PLAYER_RUN_SPEED
+  local is_aiming, aim_dir = aimInput()
+
+  local speed = is_aiming and PLAYER_WALK_SPEED or PLAYER_RUN_SPEED
   local delta = moveVector() * speed * dt
   self.collider:move(delta.x, delta.y)
 
