@@ -26,7 +26,7 @@ function Player:start()
   self.collider.type = "moveable"
 end
 
-function Player:diffuse()
+function Player:draw()
   love.graphics.setColor( 255, 255, 255, 255)
   love.graphics.draw(self.image, self.pos.x, self.pos.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
 end
@@ -38,9 +38,6 @@ function Player:debug()
   love.graphics.point( self.pos.x, self.pos.y)
 
   if self.collider ~= nil then self.collider:draw('line', 16) end
-end
-
-function Player:glow()
 end
 
 function Player:overlay()

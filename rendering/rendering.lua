@@ -84,7 +84,7 @@ DRAW_MODES = {
   -- Ability to view individual channels
   [DRAW_MODE_DIFFUSE] = function()
     current_state:prescene()
-    current_state:diffuse()
+    current_state:draw()
     current_state:postscene()
   end,
   [DRAW_MODE_NORMAL] = function()

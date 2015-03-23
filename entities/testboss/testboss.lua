@@ -16,7 +16,7 @@ function TestBoss:start()
   self.collider.type = "moveable"
 end
 
-function TestBoss:diffuse()
+function TestBoss:draw()
   love.graphics.setColor( 255, 255, 255, 255)
   love.graphics.draw(self.image, self.pos.x, self.pos.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
 end
@@ -28,9 +28,6 @@ function TestBoss:debug()
   love.graphics.point( self.pos.x, self.pos.y)
 
   if self.collider ~= nil then self.collider:draw('line', 16) end
-end
-
-function TestBoss:glow()
 end
 
 function TestBoss:overlay()

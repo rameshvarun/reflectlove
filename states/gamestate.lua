@@ -92,13 +92,9 @@ function GameState:postscene(dt)
   self.cam:detach() -- Pop camera transform
 end
 
-function GameState:diffuse()
-  _.invoke(self.entities, "diffuse")
+function GameState:draw()
+  _.invoke(self.entities, "draw")
   if DEBUG_DRAW then _.invoke(self.entities, "debug") end
-end
-
-function GameState:glow()
-  _.invoke(self.entities, "glow")
 end
 
 function GameState:overlay()
