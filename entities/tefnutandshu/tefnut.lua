@@ -11,14 +11,15 @@ end
 
 -- Called on first frame where entity is active
 function Tefnut:start()
-  self.collider = self.gamestate.collider:addCircle(self.pos.x,self.pos.y, 25)
+  self.shape = ovalShape(80, 20, 10)
+  self.collider = self.gamestate.collider:addPolygon(unpack(_.flatten(self.shape)))
   self.collider.entity = self
   self.collider.type = "moveable"
 end
 
 function Tefnut:draw()
   love.graphics.setColor( 255, 255, 255, 255)
-  love.graphics.draw(self.image, self.pos.x, self.pos.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
+  love.graphics.draw(self.image, self.pos.x + 10, self.pos.y + 15, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
 end
 
 function Tefnut:debug()

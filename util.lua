@@ -83,3 +83,15 @@ function formatTimer(time)
 
 	return string.format("%02d", minutes) .. ":" .. string.format("%02d", seconds)
 end
+
+--[[ Returns the coordinates of a polygon representing an oval.
+Coordinates returned as a list of tables, as {{x1, y1}, {x2, y2}} ]]--
+function ovalShape(width, height, segments)
+	local shape = {}
+	for i=0, segments - 1 do
+		local angle = (i / segments)*2*math.pi
+		local x, y = math.sin(angle), math.cos(angle)
+		_.push(shape, {x * width, y * height})
+	end
+	return shape
+end

@@ -5,6 +5,9 @@ function GameState:initialize()
 
   self.collider = hardoncollider(1000) -- Collision system
 
+  -- Background color
+  love.graphics.setBackgroundColor(132, 66, 4)
+
   -- Add teleporter and, bring in players
   self:add(Player(0,0))
   self:add(Tefnut(0,0))
