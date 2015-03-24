@@ -7,6 +7,7 @@ function Tefnut:initialize(x, y)
   self.pos = vector(x, y)
 
   self.image = getImage("entities/tefnutandshu/tefnut.png")
+  self.shadow = getImage("entities/tefnutandshu/shadow.png")
 end
 
 -- Called on first frame where entity is active
@@ -19,6 +20,8 @@ end
 
 function Tefnut:draw()
   love.graphics.setColor( 255, 255, 255, 255)
+
+  love.graphics.draw(self.shadow, self.pos.x, self.pos.y, 0, 1, 1, self.shadow:getWidth()/2, self.shadow:getHeight()/2 - 3)
   love.graphics.draw(self.image, self.pos.x + 10, self.pos.y + 15, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
 end
 
