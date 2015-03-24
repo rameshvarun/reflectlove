@@ -3,6 +3,7 @@ Player:include(stateful) -- Stateful object
 
 PLAYER_RUN_SPEED = 200
 PLAYER_WALK_SPEED = 100
+SHIELD_DISTANCE = 50
 
 function Player:initialize(x, y)
   self.layer = 1
@@ -45,6 +46,10 @@ function Player:debug()
   love.graphics.point( self.pos.x, self.pos.y)
 
   if self.collider ~= nil then self.collider:draw('line', 16) end
+
+  if self.shieldSpawned then
+    love.graphics.point( (self.pos + self.shieldOffset):unpack() )
+  end
 end
 
 function Player:overlay()
@@ -55,6 +60,18 @@ function Player:update(dt)
   self.gamestate.points_of_interest[self.pos] = 1
 
   local is_aiming, aim_dir = aimInput()
+  if is_aiming and not self.shieldSpawned then
+    self.shieldSpawned = true
+    self.shieldOffset = SHIELD_DISTANCE*aim_dir
+  end
+
+  if is_aiming and self.shieldSpawned then
+    self.shieldOffset = lume.slerp(self.shieldOffset, SHIELD_DISTANCE*aim_dir, 5.0*dt)
+  end
+
+  if not is_aiming and self.shieldSpawned then
+    self.shieldSpawned = false
+  end
 
   local speed = is_aiming and PLAYER_WALK_SPEED or PLAYER_RUN_SPEED
   local delta = moveVector() * speed * dt
