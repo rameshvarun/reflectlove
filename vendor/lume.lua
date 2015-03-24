@@ -59,17 +59,11 @@ end
 
 function lume.slerp(a, b, t)
   local omega = a:angleTo(b)
-  if omega > math.pi then omega = omega - math.pi*2 end
-  if omega < -math.pi then omega = omega + math.pi*2 end
   if omega == 0 then return a end
-
-  print(omega)
 
   local c_a = math.sin(omega*(1 - t))/math.sin(omega)
   local c_b = math.sin(omega*t)/math.sin(omega)
   return c_a*a + c_b*b
-
-  --return a*math.sin(omega*(1 - t))/math.sin(omega) + b*math.sin(omega*t)/math.sin(omega)
 end
 
 function lume.lerpvector(a, b, amount)

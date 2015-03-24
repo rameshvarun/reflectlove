@@ -32,11 +32,53 @@ function Player:start()
   self.collider.type = "moveable"
 end
 
+local PADDLE_DIR = "entities/player/paddle/"
+local PADDLE_DIRECTIONS = {
+  {
+    dir = vector(1, 0),
+    image = getImage(PADDLE_DIR .. "paddle_right.png")
+  },
+  {
+    dir = vector(-1, 0),
+    image = getImage(PADDLE_DIR .. "paddle_left.png")
+  },
+  {
+    dir = vector(0, -1),
+    image = getImage(PADDLE_DIR .. "paddle_top.png")
+  },
+  {
+    dir = vector(0, 1),
+    image = getImage(PADDLE_DIR .. "paddle_bottom.png")
+  },
+  {
+    dir = vector(1,1):normalized(),
+    image = getImage(PADDLE_DIR .. "paddle_bottomright.png")
+  },
+  {
+    dir = vector(-1,1):normalized(),
+    image = getImage(PADDLE_DIR .. "paddle_bottomleft.png")
+  },
+  {
+    dir = vector(-1,-1):normalized(),
+    image = getImage(PADDLE_DIR .. "paddle_topleft.png")
+  },
+  {
+    dir = vector(1,-1):normalized(),
+    image = getImage(PADDLE_DIR .. "paddle_topright.png")
+  }
+}
+
 function Player:draw()
   love.graphics.setColor( 255, 255, 255, 255)
 
   love.graphics.draw(self.shadow, self.pos.x, self.pos.y, 0, 1, 1, self.shadow:getWidth()/2, self.shadow:getHeight()/2)
   love.graphics.draw(self.image, self.pos.x, self.pos.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
+
+  if self.shieldSpawned then
+    local paddle_dir = _.min(PADDLE_DIRECTIONS, function(dir) return math.abs(self.shieldOffset:angleTo(dir.dir)) end)
+    local paddle_img = paddle_dir.image
+    love.graphics.draw(paddle_img, self.pos.x + self.shieldOffset.x, self.pos.y + self.shieldOffset.y, 0, 1, 1, paddle_img:getWidth()/2, paddle_img:getHeight()/2)
+  end
 end
 
 function Player:debug()
