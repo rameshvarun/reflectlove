@@ -3,7 +3,7 @@ Player:include(stateful) -- Stateful object
 
 PLAYER_RUN_SPEED = 200
 PLAYER_WALK_SPEED = 100
-SHIELD_DISTANCE = 50
+SHIELD_DISTANCE = 30
 
 function Player:initialize(x, y)
   self.layer = 1
@@ -36,35 +36,43 @@ local PADDLE_DIR = "entities/player/paddle/"
 local PADDLE_DIRECTIONS = {
   {
     dir = vector(1, 0),
-    image = getImage(PADDLE_DIR .. "paddle_right.png")
+    image = getImage(PADDLE_DIR .. "paddle_right.png"),
+    shape = {{5, 0}, {5, 23}}
   },
   {
     dir = vector(-1, 0),
-    image = getImage(PADDLE_DIR .. "paddle_left.png")
+    image = getImage(PADDLE_DIR .. "paddle_left.png"),
+    shape = {{0, 0}, {0, 23}}
   },
   {
     dir = vector(0, -1),
-    image = getImage(PADDLE_DIR .. "paddle_top.png")
+    image = getImage(PADDLE_DIR .. "paddle_top.png"),
+    shape = {{1, 5}, {24, 5}}
   },
   {
     dir = vector(0, 1),
-    image = getImage(PADDLE_DIR .. "paddle_bottom.png")
+    image = getImage(PADDLE_DIR .. "paddle_bottom.png"),
+    shape = {{0, 8}, {28, 8}}
   },
   {
     dir = vector(1,1):normalized(),
-    image = getImage(PADDLE_DIR .. "paddle_bottomright.png")
+    image = getImage(PADDLE_DIR .. "paddle_bottomright.png"),
+    shape = {{3, 20}, {24, 7}}
   },
   {
     dir = vector(-1,1):normalized(),
-    image = getImage(PADDLE_DIR .. "paddle_bottomleft.png")
+    image = getImage(PADDLE_DIR .. "paddle_bottomleft.png"),
+    shape = {{0, 7}, {21, 20}}
   },
   {
     dir = vector(-1,-1):normalized(),
-    image = getImage(PADDLE_DIR .. "paddle_topleft.png")
+    image = getImage(PADDLE_DIR .. "paddle_topleft.png"),
+    shape = {{0, 14}, {15, 4}}
   },
   {
     dir = vector(1,-1):normalized(),
-    image = getImage(PADDLE_DIR .. "paddle_topright.png")
+    image = getImage(PADDLE_DIR .. "paddle_topright.png"),
+    shape = {{0, 4}, {15, 14}}
   }
 }
 
@@ -78,6 +86,7 @@ function Player:draw()
     local paddle_dir = _.min(PADDLE_DIRECTIONS, function(dir) return math.abs(self.shieldOffset:angleTo(dir.dir)) end)
     local paddle_img = paddle_dir.image
     love.graphics.draw(paddle_img, self.pos.x + self.shieldOffset.x, self.pos.y + self.shieldOffset.y, 0, 1, 1, paddle_img:getWidth()/2, paddle_img:getHeight()/2)
+    self.paddle_dir = paddle_dir
   end
 end
 
@@ -91,6 +100,12 @@ function Player:debug()
 
   if self.shieldSpawned then
     love.graphics.point( (self.pos + self.shieldOffset):unpack() )
+
+    local points = _.map(self.paddle_dir.shape, function(point)
+      return {self.pos.x + point[1] + self.shieldOffset.x - self.paddle_dir.image:getWidth() / 2,
+      self.pos.y + point[2] + self.shieldOffset.y - self.paddle_dir.image:getHeight() / 2}
+    end)
+    love.graphics.line(unpack(_.flatten(points)))
   end
 end
 
@@ -108,7 +123,7 @@ function Player:update(dt)
   end
 
   if is_aiming and self.shieldSpawned then
-    self.shieldOffset = lume.slerp(self.shieldOffset, SHIELD_DISTANCE*aim_dir, 5.0*dt)
+    self.shieldOffset = lume.slerp(self.shieldOffset, SHIELD_DISTANCE*aim_dir, 10.0*dt)
   end
 
   if not is_aiming and self.shieldSpawned then
