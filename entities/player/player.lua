@@ -11,6 +11,9 @@ function Player:initialize(x, y)
 
   self.image = getImage("entities/player/pharaoh.png")
   self.shadow = getImage("entities/player/shadow.png")
+
+  self.shieldSpawned = false
+  self.shieldOffset = vector(0, 0)
 end
 
 function Player:setPosition(x, y)
@@ -30,7 +33,7 @@ end
 
 function Player:draw()
   love.graphics.setColor( 255, 255, 255, 255)
-  
+
   love.graphics.draw(self.shadow, self.pos.x, self.pos.y, 0, 1, 1, self.shadow:getWidth()/2, self.shadow:getHeight()/2)
   love.graphics.draw(self.image, self.pos.x, self.pos.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
 end

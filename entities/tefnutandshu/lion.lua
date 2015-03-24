@@ -7,6 +7,8 @@ function Lion:initialize(x, y, type)
   self.pos = vector(x, y)
 
   if type == "tefnut" then self.image = getImage("entities/tefnutandshu/tefnut.png") end
+  if type == "shu" then self.image = getImage("entities/tefnutandshu/shu.png") end
+
   self.shadow = getImage("entities/tefnutandshu/shadow.png")
 end
 
@@ -16,6 +18,7 @@ function Lion:start()
   self.collider = self.gamestate.collider:addPolygon(unpack(_.flatten(self.shape)))
   self.collider.entity = self
   self.collider.type = "moveable"
+  self.collider:moveTo(self.pos:unpack())
 end
 
 function Lion:draw()

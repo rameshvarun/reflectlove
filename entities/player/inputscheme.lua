@@ -40,9 +40,20 @@ function aimVector()
   return _.max(aim_vectors, function(vec) return vec:len() end)
 end
 
+-- Valid drections that the player can aim in
+local aim_directions = _.map({
+  vector(1, 0), vector(-1, 0), vector(0, -1), vector(0, 1),
+  vector(1, 1), vector(-1, -1), vector(1, -1), vector(-1, 1)
+}, function(vec) return vec:normalized() end)
+
 function aimInput()
   local aim_vector = aimVector()
   local is_aiming = aim_vector:len() > 0
+  local aim_drection = vector(0, 0)
 
-  return is_aiming, vector(0, 0)
+  if is_aiming then
+    aim_direction = _.min(aim_directions, function(dir) return dir.angleTo(aim_vector) end)
+  end
+  
+  return is_aiming, aim_direction 
 end

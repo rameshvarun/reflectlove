@@ -10,7 +10,8 @@ function GameState:initialize()
 
   -- Add teleporter and, bring in players
   self:add(Player(0,0))
-  self:add(Lion(0,0, 'tefnut'))
+  self:add(Lion(-200,0, 'tefnut'))
+  self:add(Lion(200,0, 'shu'))
 
   -- Ability to slow down time
   self.timescale = 1
