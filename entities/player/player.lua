@@ -3,18 +3,42 @@ Player:include(stateful) -- Stateful object
 
 PLAYER_RUN_SPEED = 200
 PLAYER_WALK_SPEED = 100
+PLAYER_ANIMATION_SPEED = 0.05
 SHIELD_DISTANCE = 30
+
+local PLAYER_DIRECTIONS = { 
+  left = { 
+    key = 'a',
+    frames = getImage("entities/player/pharaoh_left.png")
+  },
+  right = { 
+    key = 'd',
+    frames = getImage("entities/player/pharaoh_right.png")
+  }, 
+  up = { 
+    key = 'w',
+    frames = getImage("entities/player/pharaoh_up.png")
+  },
+  down = { 
+    key = 's',
+    frames = getImage("entities/player/pharaoh_down.png")
+  }
+}
 
 function Player:initialize(x, y)
   self.layer = 1
   self.tag = "player"
   self.pos = vector(x, y)
 
-  self.image = getImage("entities/player/pharaoh.png")
+  local g = anim8.newGrid(32, 32, 128, 32)
+  self.animation = anim8.newAnimation(g('1-4', 1), PLAYER_ANIMATION_SPEED)
+  self.frames = PLAYER_DIRECTIONS.down.frames
   self.shadow = getImage("entities/player/shadow.png")
+  -- array storing order in which directional keys are pressed
+  self.directionalKeysHeld = {}
 
   self.shieldSpawned = false
-  self.shieldOffset = vector(0, 0)
+  self.shieldOffset = vector(0, 0)  
 end
 
 function Player:setPosition(x, y)
@@ -77,10 +101,10 @@ local PADDLE_DIRECTIONS = {
 }
 
 function Player:draw()
-  love.graphics.setColor( 255, 255, 255, 255)
+  love.graphics.setColor(255, 255, 255, 255)
 
   love.graphics.draw(self.shadow, self.pos.x, self.pos.y, 0, 1, 1, self.shadow:getWidth()/2, self.shadow:getHeight()/2)
-  love.graphics.draw(self.image, self.pos.x, self.pos.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
+  self.animation:draw(self.frames, self.pos.x-16, self.pos.y-32)
 
   if self.shieldSpawned then
     local paddle_dir = _.min(PADDLE_DIRECTIONS, function(dir) return math.abs(self.shieldOffset:angleTo(dir.dir)) end)
@@ -134,8 +158,48 @@ function Player:update(dt)
   local delta = moveVector() * speed * dt
   self.collider:move(delta.x, delta.y)
 
+  -- Update animation if moving
+  if delta.x == 0 and delta.y == 0 then
+    self.animation:gotoFrame(1)
+  else
+    self.animation:update(dt)
+  end
+
   -- Update position from collider
   local cx, cy = self.collider:center()
   self.pos.x = cx
   self.pos.y = cy
+end
+
+function Player:handleInput(key, state)
+  if state == 1 then
+    for _, direction in pairs(PLAYER_DIRECTIONS) do
+      if key == direction.key then
+        self:addDirectionalKey(direction)
+      end
+    end
+  elseif state == -1 then
+    for _, direction in pairs(PLAYER_DIRECTIONS) do
+      if key == direction.key then
+        self:removeDirectionalKey(direction)
+      end
+    end
+  end
+end
+
+function Player:addDirectionalKey(direction)
+  if _.first(self.directionalKeysHeld) == nil then
+    self.frames = direction.frames
+    self.animation:gotoFrame(1)
+  end
+  _.push(self.directionalKeysHeld, direction)
+end
+
+function Player:removeDirectionalKey(direction)
+  local newKeys = _.reject(self.directionalKeysHeld, function (d) return d == direction end)
+  if _.first(self.directionalKeysHeld) == direction and _.first(newKeys) ~= nil then
+    self.frames = _.first(newKeys).frames
+    self.animation:gotoFrame(1)
+  end
+  self.directionalKeysHeld = newKeys
 end

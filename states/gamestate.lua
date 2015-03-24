@@ -89,6 +89,15 @@ function GameState:update(dt)
   self.collider:update() -- Detect collisions
 end
 
+-- state is either 1 for pressed or -1 for released
+function GameState:handleInput(key, state)
+  for _,entity in pairs(self.entities) do
+    if entity.handleInput ~= nil then
+      entity:handleInput(key, state)
+    end
+  end
+end
+
 function GameState:prescene(dt)
   self.cam:attach() -- Push camera transform onto stack
   _.sort(self.entities, drawOrder) --Sort by layer and y-ordering

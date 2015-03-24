@@ -65,6 +65,10 @@ function love.update(dt)
   end
 end
 
+function love.keypressed(key, isrepeat)
+  current_state:handleInput(key, 1)
+end
+
 function love.keyreleased(key, unicode)
   if key == "f1" then
     if not RELEASE then
@@ -76,4 +80,6 @@ function love.keyreleased(key, unicode)
   if current_state ~= nil and current_state.keyreleased ~= nil then
     current_state:keyreleased(key, unicode)
   end
+
+  current_state:handleInput(key, -1)
 end

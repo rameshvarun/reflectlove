@@ -40,6 +40,9 @@ end
 function Lion:overlay()
 end
 
+function Lion:handleInput(key, state)
+end
+
 function Lion:update(dt)
   -- Register self as a point of interest
   self.gamestate.points_of_interest[self.pos] = 1
