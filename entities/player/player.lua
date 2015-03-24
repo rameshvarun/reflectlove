@@ -37,42 +37,42 @@ local PADDLE_DIRECTIONS = {
   {
     dir = vector(1, 0),
     image = getImage(PADDLE_DIR .. "paddle_right.png"),
-    shape = {{5, 0}, {5, 23}}
+    shape = {{29, 4}, {29, 28}}
   },
   {
     dir = vector(-1, 0),
     image = getImage(PADDLE_DIR .. "paddle_left.png"),
-    shape = {{0, 0}, {0, 23}}
+    shape = {{2, 4}, {2, 28}}
   },
   {
     dir = vector(0, -1),
     image = getImage(PADDLE_DIR .. "paddle_top.png"),
-    shape = {{1, 5}, {24, 5}}
+    shape = {{5, 1}, {26, 1}}
   },
   {
     dir = vector(0, 1),
     image = getImage(PADDLE_DIR .. "paddle_bottom.png"),
-    shape = {{0, 8}, {28, 8}}
+    shape = {{2, 26}, {29, 26}}
   },
   {
     dir = vector(1,1):normalized(),
     image = getImage(PADDLE_DIR .. "paddle_bottomright.png"),
-    shape = {{3, 20}, {24, 7}}
+    shape = {{9, 27}, {28, 16}}
   },
   {
     dir = vector(-1,1):normalized(),
     image = getImage(PADDLE_DIR .. "paddle_bottomleft.png"),
-    shape = {{0, 7}, {21, 20}}
+    shape = {{3, 15}, {22, 26}}
   },
   {
     dir = vector(-1,-1):normalized(),
     image = getImage(PADDLE_DIR .. "paddle_topleft.png"),
-    shape = {{0, 14}, {15, 4}}
+    shape = {{1, 13}, {18, 3}}
   },
   {
     dir = vector(1,-1):normalized(),
     image = getImage(PADDLE_DIR .. "paddle_topright.png"),
-    shape = {{0, 4}, {15, 14}}
+    shape = {{30, 13}, {13, 3}}
   }
 }
 
