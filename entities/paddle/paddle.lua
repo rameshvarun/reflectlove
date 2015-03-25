@@ -1,7 +1,7 @@
 Paddle = class('Paddle')
 Paddle:include(stateful) -- Stateful object
 
-PADDLE_DISTANCE = 30
+PADDLE_DISTANCE = 15
 
 local PADDLE_IMAGE_DIR = "graphics/paddle/"
 local PADDLE_DIRECTIONS = {
@@ -68,7 +68,10 @@ end
 
 function Paddle:onCollide(other, dx, dy)
   if other.tag == "bullet" then
-    other.velocity = other.velocity * -1
+    -- see http://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
+    local u = other.velocity
+    local v = self.offset:normalized()
+    other.velocity = (u - 2*(u*v)*v):normalized()
     other.pos.x = other.pos.x - dx
     other.pos.y = other.pos.y - dy
   end

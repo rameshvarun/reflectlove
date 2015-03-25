@@ -6,12 +6,12 @@ local BULLET_TYPES = {
   shu = { 
     name = "shu", 
     imagePath = BULLET_IMAGE_DIR .. "bullet_shu.png",
-    speed = 300
+    speed = 100
   },
   tefnut = { 
     name = "tefnut", 
     imagePath = BULLET_IMAGE_DIR .. "bullet_tefnut.png",
-    speed = 300
+    speed = 100
   }
 }
 
