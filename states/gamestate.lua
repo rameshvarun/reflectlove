@@ -24,6 +24,14 @@ function GameState:initialize()
 end
 
 function GameState:handleCollision(dt, a, b, dx, dy)
+  -- call callbacks attached to colliders
+  if a.entity.onCollide ~= nil then
+    a.entity:onCollide(b.entity, dx, dy)
+  end
+  if b.entity.onCollide ~= nil then
+    b.entity:onCollide(a.entity, dx, dy)
+  end
+
   if a.type == "solid" and b.type == "moveable" then
     b:move(-dx, -dy)
   end

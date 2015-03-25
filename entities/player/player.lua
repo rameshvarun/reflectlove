@@ -50,6 +50,16 @@ function Player:setPosition(x, y)
   end
 end
 
+function Player:onCollide(other, dx, dy)
+  if other.tag == "enemy" then
+    self:die()
+  end
+end
+
+function Player:die()
+  next_state = GameState()
+end
+
 function Player:start()
   self.collider = self.gamestate.collider:addCircle(self.pos.x,self.pos.y, 8)
   self.collider.entity = self

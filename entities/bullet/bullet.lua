@@ -59,7 +59,5 @@ function Bullet:handleInput(key, state)
 end
 
 function Bullet:update(dt)
-  -- Register self as a point of interest
-  self.gamestate.points_of_interest[self.pos] = 1
   self.pos = self.pos + self.vel*self.speed*dt
 end
