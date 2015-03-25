@@ -60,7 +60,7 @@ function Lion:update(dt)
   self.bulletTimer = self.bulletTimer+dt
   if self.bulletTimer >= BULLET_INTERVAL then
     self.bulletTimer = self.bulletTimer - BULLET_INTERVAL
-    local player = current_state:getEntityByTag("player")
-    current_state:add(Bullet(self.pos, (player.pos - self.pos):normalized(), self.name))
+    local player = self.gamestate:getEntityByTag("player")
+    self.gamestate:add(Bullet(self.pos, (player.pos - self.pos):normalized(), self.name))
   end
 end

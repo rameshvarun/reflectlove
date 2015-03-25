@@ -29,7 +29,7 @@ function GameState:handleCollision(dt, a, b, dx, dy)
     a.entity:onCollide(b.entity, dx, dy)
   end
   if b.entity.onCollide ~= nil then
-    b.entity:onCollide(a.entity, dx, dy)
+    b.entity:onCollide(a.entity, -dx, -dy)
   end
 
   if a.type == "solid" and b.type == "moveable" then

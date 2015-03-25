@@ -95,3 +95,8 @@ function ovalShape(width, height, segments)
 	end
 	return shape
 end
+
+--[[ Draws an image using its center instead of the top left ]]--
+function drawCenter(image, x, y)
+	love.graphics.draw(image, x-image:getWidth()/2, y-image:getHeight()/2)
+end

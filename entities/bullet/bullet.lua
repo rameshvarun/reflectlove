@@ -6,20 +6,20 @@ local BULLET_TYPES = {
   shu = { 
     name = "shu", 
     imagePath = BULLET_IMAGE_DIR .. "bullet_shu.png",
-    speed = 100
+    speed = 300
   },
   tefnut = { 
     name = "tefnut", 
     imagePath = BULLET_IMAGE_DIR .. "bullet_tefnut.png",
-    speed = 100
+    speed = 300
   }
 }
 
-function Bullet:initialize(pos, vel, typeName)
+function Bullet:initialize(pos, velocity, typeName)
   self.layer = 1
   self.tag = "bullet"
   self.pos = pos
-  self.vel = vel  --velocity
+  self.velocity = velocity
 
   local bulletType = BULLET_TYPES[typeName]
   self.name = bulletType.name
@@ -29,18 +29,13 @@ end
 
 -- Called on first frame where entity is active
 function Bullet:start()
-  --[[ 
-  self.shape = ovalShape(80, 20, 10)
-  self.collider = self.gamestate.collider:addPolygon(unpack(_.flatten(self.shape)))
+  self.collider = self.gamestate.collider:addCircle(0,0,8)
   self.collider.entity = self
-  self.collider.type = "moveable"
-  self.collider:moveTo(self.pos:unpack())
-  ]]--
 end
 
 function Bullet:draw()
   love.graphics.setColor( 255, 255, 255, 255)
-  love.graphics.draw(self.image, self.pos.x + 10, self.pos.y + 15, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight())
+  drawCenter(self.image, self.pos.x, self.pos.y)
 end
 
 function Bullet:debug()
@@ -59,5 +54,6 @@ function Bullet:handleInput(key, state)
 end
 
 function Bullet:update(dt)
-  self.pos = self.pos + self.vel*self.speed*dt
+  self.pos = self.pos + self.velocity * self.speed * dt
+  self.collider:moveTo(self.pos.x, self.pos.y)
 end
