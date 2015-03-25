@@ -9,19 +9,19 @@ SHIELD_DISTANCE = 30
 local PLAYER_DIRECTIONS = { 
   left = { 
     key = 'a',
-    frames = getImage("entities/player/pharaoh_left.png")
+    frames = getImage("graphics/player/player_left.png")
   },
   right = { 
     key = 'd',
-    frames = getImage("entities/player/pharaoh_right.png")
+    frames = getImage("graphics/player/player_right.png")
   }, 
   up = { 
     key = 'w',
-    frames = getImage("entities/player/pharaoh_up.png")
+    frames = getImage("graphics/player/player_up.png")
   },
   down = { 
     key = 's',
-    frames = getImage("entities/player/pharaoh_down.png")
+    frames = getImage("graphics/player/player_down.png")
   }
 }
 
@@ -33,7 +33,7 @@ function Player:initialize(x, y)
   local g = anim8.newGrid(32, 32, 128, 32)
   self.animation = anim8.newAnimation(g('1-4', 1), PLAYER_ANIMATION_SPEED)
   self.frames = PLAYER_DIRECTIONS.down.frames
-  self.shadow = getImage("entities/player/shadow.png")
+  self.shadow = getImage("graphics/player/shadow.png")
   -- array storing order in which directional keys are pressed
   self.directionalKeysHeld = {}
 
@@ -56,7 +56,7 @@ function Player:start()
   self.collider.type = "moveable"
 end
 
-local PADDLE_DIR = "entities/player/paddle/"
+local PADDLE_DIR = "graphics/paddle/"
 local PADDLE_DIRECTIONS = {
   {
     dir = vector(1, 0),

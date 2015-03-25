@@ -1,6 +1,8 @@
 Lion = class('Lion')
 Lion:include(stateful) -- Stateful object
 
+local BULLET_INTERVAL = 1.5
+
 function Lion:initialize(x, y, type)
   self.layer = 1
   self.tag = "enemy"
@@ -8,6 +10,8 @@ function Lion:initialize(x, y, type)
 
   if type == "tefnut" then self.image = getImage("entities/tefnutandshu/tefnut.png") end
   if type == "shu" then self.image = getImage("entities/tefnutandshu/shu.png") end
+  self.name = type
+  self.bulletTimer = 0
 
   self.shadow = getImage("entities/tefnutandshu/shadow.png")
 end
@@ -51,4 +55,12 @@ function Lion:update(dt)
   local cx, cy = self.collider:center()
   self.pos.x = cx
   self.pos.y = cy
+
+  -- Bullet stuff
+  self.bulletTimer = self.bulletTimer+dt
+  if self.bulletTimer >= BULLET_INTERVAL then
+    self.bulletTimer = self.bulletTimer - BULLET_INTERVAL
+    local player = current_state:getEntityByTag("player")
+    current_state:add(Bullet(self.pos, (player.pos - self.pos):normalized(), self.name))
+  end
 end
